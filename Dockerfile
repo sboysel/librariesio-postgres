@@ -1,6 +1,6 @@
 FROM alpine:3.14
 
-RUN apk update && apk add curl postgresql-client python3 tar
+RUN apk update && apk add curl pigz postgresql-client python3 tar
 RUN python3 -m ensurepip
 RUN pip3 install -U pip
 RUN pip3 install csvkit
