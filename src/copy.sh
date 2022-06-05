@@ -3,18 +3,30 @@ export PGPASSWORD=postgres
 
 pg="psql -U postgres -d librariesio -h postgres"
 
+echo "Copy projects..."
+$pg -c "\COPY projects FROM './data/projects.csv' DELIMITER ',' CSV;"
+echo "Copy repositories..."
+$pg -c "\COPY repositories FROM './data/repositories.csv' DELIMITER ',' CSV;"
+echo "Copy dependencies..."
+$pg -c "\COPY dependencies FROM './data/dependencies.csv' DELIMITER ',' CSV;"
+echo "Copy versions..."
+$pg -c "\COPY versions FROM './data/versions.csv' DELIMITER ',' CSV;"
+
+
 # [x] projects
-output=$($pg '\dt projects;')
+output=$($pg -c "\dt projects;")
 if ! echo $output | grep -qw "projects";
 then
+    echo "Copy projects..."
     $pg -c "\COPY projects FROM './data/projects.csv' DELIMITER ',' CSV;"
 fi
 
-# [x] repositories.g
-output=$($pg '\dt repositories.g;')
-if ! echo $output | grep -qw "repositories.g";
+# [x] repositories
+output=$($pg -c "\dt repositories;")
+if ! echo $output | grep -qw "repositories";
 then
-    $pg -c "\COPY repositories.g FROM './data/projects.csv' DELIMITER ',' CSV;"
+    echo "Copy repositories..."
+    $pg -c "\COPY repositories FROM './data/repositories.csv' DELIMITER ',' CSV;"
 fi
 
 # # [x] projects_with_repository_fields
@@ -25,18 +37,18 @@ fi
 # fi
 
 # [x] dependencies
-$pg -c "\COPY dependencies FROM './data/dependencies.csv' DELIMITER ',' CSV;"
-output=$($pg '\dt dependencies;')
+output=$($pg -c "\dt dependencies;")
 if ! echo $output | grep -qw "dependencies";
 then
+    echo "Copy dependencies..."
     $pg -c "\COPY dependencies FROM './data/dependencies.csv' DELIMITER ',' CSV;"
 fi
 
 # [x] versions
-$pg -c "\COPY versions FROM './data/versions.csv' DELIMITER ',' CSV;"
-output=$($pg '\dt versions;')
+output=$($pg -c "\dt versions;")
 if ! echo $output | grep -qw "versions";
 then
+    echo "Copy versions..."
     $pg -c "\COPY versions FROM './data/versions.csv' DELIMITER ',' CSV;"
 fi
 
