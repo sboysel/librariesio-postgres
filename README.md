@@ -1,6 +1,22 @@
 # Load Libraries.io data in Postgres
 
+Load an offline copy of the Libraries.io database into a Dockerized Postgres
+instance.
+
+## dependencies
+
+```
+docker
+docker-compose
+make
+```
+
 ## usage
+
+```
+git clone git@github.com:sboysel/librariesio-docker.git
+cd librariesio-docker
+```
 
 In repository root, run GNU make to build the application container, bring up
 services, and run the application (download, extract, copy CSV to post
@@ -15,13 +31,12 @@ connect to `postgres` instance
 PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0
 ```
 
-## dependencies
+## todo
 
-```
-docker
-docker-compose
-make
-```
+- [ ] Sort out CSV formatting issues in `repositories` table
+- [ ] Create approproiate indexes
+- [ ] Python client example
+- [ ] Write up
 
 ## references
 
