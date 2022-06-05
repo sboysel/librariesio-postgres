@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS projects, versions, tags, dependencies, repositories, repository_dependencies, projects_with_repository_fields;
+-- DROP TABLE IF EXISTS projects, versions, tags, dependencies, repositories, repository_dependencies, projects_with_repository_fields;
 
 -- A Libraries.io project is the definition of a package available from one of the 37 Package Managers that it supports.
 
@@ -83,7 +83,7 @@ CREATE TABLE dependencies (
 
 -- CREATE INDEX idx_id ON dependencies (id);
 
-CREATE INDEX id_version_id_idx ON dependencies (id, version_id);
+-- CREATE INDEX id_version_id_idx ON dependencies (id, version_id);
 
 -- A Libraries.io repository represents a publically accessible source code repository from either github.com, gitlab.com or bitbucket.org.
 
