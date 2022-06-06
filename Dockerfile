@@ -1,9 +1,8 @@
-FROM alpine:3.14
+FROM rustlang/rust:nightly-alpine
 
-RUN apk update && apk add curl pigz postgresql-client python3 tar
-RUN python3 -m ensurepip
-RUN pip3 install -U pip
-RUN pip3 install csvkit
+RUN apk update && apk add curl musl-dev pigz postgresql-client pv tar
+
+RUN cargo install qsv --features full
 
 COPY ./src/download.sh /src/download.sh
 RUN chmod +x /src/download.sh
