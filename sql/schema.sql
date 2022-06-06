@@ -1,4 +1,4 @@
--- DROP TABLE IF EXISTS projects, versions, tags, dependencies, repositories, repository_dependencies, projects_with_repository_fields;
+DROP TABLE IF EXISTS projects, versions, tags, dependencies, repositories, repository_dependencies, projects_with_repository_fields;
 
 -- A Libraries.io project is the definition of a package available from one of the 37 Package Managers that it supports.
 
@@ -212,6 +212,7 @@ CREATE TABLE projects_with_repository_fields (
   repository_last_synced_timestamp timestamp, -- Timestamp of when Libraries.io last synced the repository from the host API.
   repository_sourcerank integer, -- Libraries.io defined score based on quality, popularity and community metrics.
   repository_display_name varchar, -- Display name for the repository, only available for GitLab repositories.
+  foo varchar,
   repository_scm_type varchar, -- Type of source control repository uses, always "git" for GitHub and GitLab.
   repository_pull_requests_enabled boolean, -- Are pull requests enabled for this repository? Only available for GitLab repositories.
   repository_logo_url varchar, -- Custom logo url for repository, only available for GitLab repositories.
