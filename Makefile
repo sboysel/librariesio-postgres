@@ -31,6 +31,13 @@ copy: extract src/copy.sh sql/schema.sql
 		--network librariesio \
 		librariesio:latest ./src/copy.sh
 
+query:
+	PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
+		   -f sql/queries/sample_projects_core.sql
+	PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
+		   -f sql/queries/export_projects_core.sql \
+		   --csv -o $(LIBIO_HOME)/projects_core.csv
+
 clean:
 	# docker image prune
 	# docker builder prune
@@ -45,3 +52,4 @@ test:
 	@echo $(LIBIO_TARGZ) 
 	@echo $(LIBIO_URL) 
 	@echo $(LIBIO_TARGZ) 
+
