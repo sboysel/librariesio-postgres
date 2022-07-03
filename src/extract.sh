@@ -9,7 +9,7 @@ for item in "projects_with_repository_fields" "dependencies" "versions"; do
             tail -n +2 > ./data/$item-tmp.csv
         echo "Processing $item..."
         # filter to NPM packages
-        qsv search -i -s 2 npm ./data/$item-tmp.csv > ./data/$item.csv
+        ./qsvlite search -i -s 2 npm ./data/$item-tmp.csv > ./data/$item.csv
         rm ./data/$item-tmp.csv
     fi
 done

@@ -47,7 +47,10 @@ services:
 volumes:
   postgres:
     driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/db/libio
 networks:
   librariesio:
     name: "librariesio"
-    # driver: bridge
