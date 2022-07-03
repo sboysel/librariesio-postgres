@@ -18,6 +18,11 @@ git clone git@github.com:sboysel/librariesio-docker.git
 cd librariesio-docker
 ```
 
+Edit `.env` and `.envrc` to set `$LIBIO_HOME` as the directory in which the
+Libraries.io archive and component CSVs will live.  The archive is downloaded if
+not already present in this directory.  All component CSVs are extracted and
+processed here.
+
 In repository root, run GNU make to build the application container, bring up
 services, and run the application (download, extract, copy CSV to post
 )
@@ -31,11 +36,16 @@ connect to `postgres` instance
 PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0
 ```
 
+Run queries
+
+```bash
+make query
+```
+
 ## todo
 
-- [ ] Sort out CSV formatting issues in `repositories` table
-- [ ] Create approproiate indexes
-- [ ] Python client example
+- [x] Sort out CSV formatting issues in `repositories` table
+- [x] Create approproiate indexes
 - [ ] Write up
 
 ## references
