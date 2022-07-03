@@ -1,8 +1,9 @@
-FROM rustlang/rust:nightly-alpine
+FROM alpine:latest
 
 RUN apk update && apk add curl musl-dev pigz postgresql-client pv tar
 
-RUN cargo install qsv --features full
+RUN curl -LJO https://github.com/jqnatividad/qsv/releases/download/0.58.2/qsv-0.58.2-x86_64-unknown-linux-musl.zip
+RUN unzip qsv-0.58.2-x86_64-unknown-linux-musl.zip
 
 COPY ./src/download.sh /src/download.sh
 RUN chmod +x /src/download.sh
