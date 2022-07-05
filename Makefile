@@ -7,7 +7,7 @@ data: download extract copy
 build: docker-compose.yml Dockerfile
 	docker-compose build
 
-services: build docker-compose.yml
+services: build docker-compose.yml sql/schema.sql
 	docker-compose up -d
 
 download: src/download.sh
@@ -32,13 +32,14 @@ copy: extract src/copy.sh sql/schema.sql
 		librariesio:latest ./src/copy.sh
 
 query:
+	# PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
+	# 	   -f sql/queries/sample_projects_core.sql
+	# PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
+	# 	   -f sql/queries/export_projects_core.sql \
+	# 	   --csv -o $(LIBIO_HOME)/projects_core.csv
 	PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
-		   -f sql/queries/sample_projects_core.sql
-	PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
-		   -f sql/queries/export_projects_core.sql \
-		   --csv -o $(LIBIO_HOME)/projects_core.csv
-	PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
-		   -f sql/queries/sample_network.sql
+		   -f sql/queries/sample_network.sql \
+		   --csv -o $(LIBIO_HOME)/sample.csv
 
 clean:
 	# docker image prune
