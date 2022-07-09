@@ -37,9 +37,13 @@ query:
 	# PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
 	# 	   -f sql/queries/export_projects_core.sql \
 	# 	   --csv -o $(LIBIO_HOME)/projects_core.csv
+	date +"[%F %T %z] Begin query ... "
+	PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
+		   -f sql/queries/sample_network_pre.sql
 	PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0 \
 		   -f sql/queries/sample_network.sql \
 		   --csv -o $(LIBIO_HOME)/sample.csv
+	date +"[%F %T %z] End query ... "
 
 clean:
 	# docker image prune
