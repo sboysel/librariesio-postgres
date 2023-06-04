@@ -19,11 +19,10 @@ services:
     container_name: pgweb
     restart: always
     image: sosedoff/pgweb
-    # hostname: postgres
     ports:
       - "8081:8081"
     links:
-      - postgres:postgres  # my database container is called postgres, not db
+      - postgres:postgres
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/librariesio?sslmode=disable
     networks:
@@ -32,7 +31,6 @@ services:
       - postgres
   librariesio:
     container_name: librariesio
-    # restart: always
     image: librariesio:latest
     build:
       dockerfile: ./Dockerfile

@@ -46,17 +46,12 @@ query:
 	date +"[%F %T %z] End query ... "
 
 clean:
-	# docker image prune
-	# docker builder prune
 	docker-compose down
-	# docker rm librariesio
-	# docker rm postgres
-	# docker rm pgweb
 	docker system prune -a --volumes
 
 
 test:
-	@echo $(LIBIO_TARGZ) 
+	@echo $(LIBIO_HOME) 
 	@echo $(LIBIO_URL) 
 	@echo $(LIBIO_TARGZ) 
 

@@ -3,46 +3,46 @@
 Load an offline copy of the Libraries.io database into a Dockerized Postgres
 instance.
 
-## dependencies
+## Data Source
 
-```
-docker
-docker-compose
-make
-```
+Jeremy Katz. (2020). Libraries.io Open Source Repository and Dependency Metadata (1.6.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.3626071
 
-## usage
+## Setup
+
+### Dependencies
+
+- `docker`
+- `docker-compose`
+- `make`
+
+### Environment
+
+- `LIBIO_URL=https://zenodo.org/record/3626071/files/libraries-1.6.0-2020-01-12.tar.gz`
+- `LIBIO_TARGZ=libraries-1.6.0-2020-01-12.tar.gz`
+- `LIBIO_HOME=/mnt/storage/librariesio`
+
+Edit `.env` (for Docker, required) and `.envrc` (for direnv,
+optional) to set `$LIBIO_HOME` as the directory in which the
+Libraries.io archive and component CSVs will live.  The archive is
+downloaded if not already present in this directory.  All component
+CSVs are extracted and processed here.
+
+### Usage
 
 ```
 git clone git@github.com:sboysel/librariesio-docker.git
 cd librariesio-docker
-```
-
-Edit `.env` and `.envrc` to set `$LIBIO_HOME` as the directory in which the
-Libraries.io archive and component CSVs will live.  The archive is downloaded if
-not already present in this directory.  All component CSVs are extracted and
-processed here.
-
-In repository root, run GNU make to build the application container, bring up
-services, and run the application (download, extract, copy CSV to post
-)
-```bash
 make
 ```
 
-Use visit pgweb UI in browser at [0.0.0.0:8081](0.0.0.0:81) or use `psql` to
-connect to `postgres` instance
+The default Makefile will build the application container, bring up
+services, and run the application (download, extract, copy CSV to
+post).  Visit [0.0.0.0:8081](0.0.0.0:8181) in a web browser or use
+`psql` to connect to the Dockerized `postgres` instance
+
 ```bash
 PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0
 ```
-
-Run queries
-
-```bash
-make query
-```
-
-## todo
 
 - [x] Sort out CSV formatting issues in `repositories` table
 - [x] Create approproiate indexes
