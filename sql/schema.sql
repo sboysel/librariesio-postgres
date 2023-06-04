@@ -196,23 +196,12 @@ CREATE TABLE projects_with_repository_fields (id integer PRIMARY KEY, -- The uni
  repository_last_synced_timestamp TIMESTAMP, -- Timestamp of when Libraries.io last synced the repository from the host API.
  repository_sourcerank integer, -- Libraries.io defined score based on quality, popularity and community metrics.
  repository_display_name varchar, -- Display name for the repository, only available for GitLab repositories.
- foo varchar, repository_scm_type varchar, -- Type of source control repository uses, always "git" for GitHub and GitLab.
+ foo varchar, -- FIX for bad column
+ repository_scm_type varchar, -- Type of source control repository uses, always "git" for GitHub and GitLab.
  repository_pull_requests_enabled boolean, -- Are pull requests enabled for this repository? Only available for GitLab repositories.
  repository_logo_url varchar, -- Custom logo url for repository, only available for GitLab repositories.
  repository_keywords varchar -- Comma separated array of keywords, called "topics" on GitHub, only available for GitHub and GitLab.
 );
 
-
--- https://www.linuxfoundation.org/tools/census-ii-of-free-and-open-source-software-application-libraries/
--- https://data.world/thelinuxfoundation/census-ii-of-free-and-open-source-software
-
-DROP TABLE IF EXISTS appendix_c_npm_ind_dir_top500_noversion
-CREATE TABLE appendix_c_npm_ind_dir_top500_noversion (
-    platform text,
-    name text PRIMARY KEY,
-    zscore_combined real, openssf_badge_tiered_percentage text
-);
-
 CREATE INDEX IF NOT EXISTS project_idx ON dependencies (project_id);
 CREATE INDEX IF NOT EXISTS dependency_project_idx ON dependencies (dependency_project_id); 
-
