@@ -16,6 +16,8 @@ ORDER BY
   repository_name_with_owner,
   id;
 
+CREATE INDEX IF NOT EXISTS project_idx ON repos (project_id);
+
 CREATE TEMPORARY TABLE sample AS
 -- get dependency graph for public firm repos
 WITH RECURSIVE deps (degree,
@@ -30,10 +32,15 @@ WITH RECURSIVE deps (degree,
     FROM
       dependencies
     INNER JOIN
-      repos
+      repos AS p
       ON
-        dependencies.project_id = repos.project_id
+        dependencies.project_id = p.project_id
+    INNER JOIN
+      repos AS d
+      ON
+        dependencies.dependency_project_id = d.project_id
     WHERE
+      project_name != dependency_name AND
       optional_dependency = FALSE AND
       LOWER(dependency_kind) = 'runtime' AND
       dependency_project_id IS NOT NULL
@@ -46,8 +53,8 @@ WITH RECURSIVE deps (degree,
   (
     SELECT
       deps.degree + 1,
-      d.project_id AS project_id,
-      d.dependency_project_id AS dependency_project_id
+      dd.project_id AS project_id,
+      dd.dependency_project_id AS dependency_project_id
     FROM
       deps
     INNER JOIN
@@ -59,21 +66,26 @@ WITH RECURSIVE deps (degree,
         FROM
           dependencies
         INNER JOIN
-          repos
+          repos AS p
           ON
-            dependencies.project_id = repos.project_id
+            dependencies.project_id = p.project_id
+        INNER JOIN
+          repos AS d
+          ON
+            dependencies.dependency_project_id = d.project_id
         WHERE
+          project_name != dependency_name AND
           dependencies.optional_dependency = FALSE AND
           LOWER(dependencies.dependency_kind) = 'runtime' AND
           dependencies.dependency_project_id IS NOT NULL
-      ) AS d
+      ) AS dd
       ON
-        deps.dependency_project_id = d.project_id
+        deps.dependency_project_id = dd.project_id
     WHERE
       deps.degree <= 10
     ORDER BY
-      d.project_id,
-      d.dependency_project_id
+      dd.project_id,
+      dd.dependency_project_id
   )
 )
 SELECT DISTINCT
@@ -94,9 +106,10 @@ WHERE
   deps.project_id IS NOT NULL AND
   deps.dependency_project_id IS NOT NULL AND
   p.name_with_owner IS NOT NULL AND
-  d.name_with_owner IS NOT NULL
+  d.name_with_owner IS NOT NULL AND
+  p.name_with_owner != d.name_with_owner
 ORDER BY
   deps.project_id,
   deps.dependency_project_id;
 
-\COPY sample TO '/home/sam/test.csv' CSV HEADER;
+\COPY sample TO '/home/sam/data/lish/github_contrib/dependency_graph_public_firm_repos.csv' CSV HEADER;
