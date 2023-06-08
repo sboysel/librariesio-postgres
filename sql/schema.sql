@@ -195,10 +195,3 @@ CREATE TABLE IF NOT EXISTS projects_with_repository_fields (id INTEGER PRIMARY K
     repository_logo_url VARCHAR, -- Custom logo url for repository, only available for GitLab repositories.
     repository_keywords VARCHAR -- Comma separated array of keywords, called "topics" on GitHub, only available for GitHub and GitLab.
 );
-
-CREATE TABLE IF NOT EXISTS public_firm_repos (
-  repo VARCHAR PRIMARY KEY
-);
-
-CREATE INDEX IF NOT EXISTS project_idx ON dependencies (project_id);
-CREATE INDEX IF NOT EXISTS dependency_project_idx ON dependencies (dependency_project_id); 
