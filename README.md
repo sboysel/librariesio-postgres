@@ -1,60 +1,42 @@
 # Load Libraries.io data in Postgres
 
-Load an offline copy of the Libraries.io database into a Dockerized Postgres
-instance.
+Load an offline copy of the [Libraries.io](https://libraries.io/) database into a Postgresql.
 
-## dependencies
+## Data Source
+
+Jeremy Katz. (2020). Libraries.io Open Source Repository and Dependency Metadata (1.6.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.3626071
+
+## Usage 
+
+### Setup: Dependencies and Environment Variables
+
+- `postgresql` (script assumes user `postgres` can write to a local database `librariesio`)
+- `curl`
+- `make`
+
+See `.envrc` for required environment variables. 
 
 ```
-docker
-docker-compose
+export WORKDIR=$HOME"/data/librariesio"
+export TARGZ="libraries-1.6.0-2020-01-12.tar.gz"
+export URL="https://zenodo.org/record/3626071/files/"$TARGZ
+export PG="psql -U postgres -d librariesio"
+export DATASETS=("dependencies" "projects" "projects_with_repository_fields"
+   "repositories" "repository_dependencies" "versions" "tags")
+```
+
+In particular, `WORKDIR` is the directory where the Libraries.io archive will
+be downloaded and individual CSV datasets will be extracted.
+
+### Load Database
+
+Download archive, extract individual datasets, and load the data into
+Postgres:
+
+```
 make
 ```
 
-## usage
+## References
 
-```
-git clone git@github.com:sboysel/librariesio-docker.git
-cd librariesio-docker
-```
-
-Edit `.env` and `.envrc` to set `$LIBIO_HOME` as the directory in which the
-Libraries.io archive and component CSVs will live.  The archive is downloaded if
-not already present in this directory.  All component CSVs are extracted and
-processed here.
-
-In repository root, run GNU make to build the application container, bring up
-services, and run the application (download, extract, copy CSV to post
-)
-```bash
-make
-```
-
-Use visit pgweb UI in browser at [0.0.0.0:8081](0.0.0.0:81) or use `psql` to
-connect to `postgres` instance
-```bash
-PGPASSWORD=postgres psql -U postgres -d librariesio -h 0.0.0.0
-```
-
-Run queries
-
-```bash
-make query
-```
-
-## todo
-
-- [x] Sort out CSV formatting issues in `repositories` table
-- [x] Create approproiate indexes
-- [ ] Write up
-
-## references
-
-- https://zenodo.org/record/3626071#.YprimnXMJQJ
-- https://zenodo.org/record/3626071/files/libraries-1.6.0-2020-01-12.tar.gz?download=1
-- https://geshan.com.np/blog/2021/12/docker-postgres/
-- https://herewecode.io/blog/create-a-postgresql-database-using-docker-compose/
-- https://graspingtech.com/docker-compose-postgresql/
-- https://thedatasoup.com/data-ingestion-running-a-pipeline-with-python-postgres-and-pgadmin-using-docker/
-- https://hub.docker.com/r/sosedoff/pgweb/
-
+- [Libraries.io data documentation](https://libraries.io/data)
