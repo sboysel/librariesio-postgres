@@ -4,7 +4,9 @@ Load an offline copy of the [Libraries.io](https://libraries.io/) database into 
 
 ## Data Source
 
-Jeremy Katz. (2020). Libraries.io Open Source Repository and Dependency Metadata (1.6.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.3626071
+    Jeremy Katz. (2020). Libraries.io Open Source Repository 
+    and Dependency Metadata (1.6.0) [Data set]. Zenodo. 
+    https://doi.org/10.5281/zenodo.3626071
 
 ## Usage 
 
